@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('express-async-errors')
 const express = require('express')
 const app = express()
 
@@ -12,8 +13,8 @@ const authRouter = require('./routes/auth')
 // connect datebase
 const connectDB = require('./db/connect')
 
-app.use('/auth', authRouter)
 app.use(express.json())
+app.use('/api/v1/auth', authRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)

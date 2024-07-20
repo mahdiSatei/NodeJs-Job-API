@@ -1,5 +1,8 @@
+const User = require('../models/User')
+
 const register = async (req, res) => {
-    res.json('Register')
+    const user = await User.create(req.body)
+    res.json({user})
 }
 
 const login = async (req, res) => {
