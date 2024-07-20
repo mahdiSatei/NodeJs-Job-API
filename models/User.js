@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcyrpt = require('bcryptjs')
 
 const UserSchema = new mongoose.Schema ({
     name : {
@@ -23,5 +24,10 @@ const UserSchema = new mongoose.Schema ({
     }
 })
 
+UserSchema.pre('save', async function(next){
+    const salt = await bcyrpt.genSalt(10)
+    this.password = await bcyrpt.hash(this.password, salt)
+    next()
+})
 // module.exports = mongoose.model('User', UserSchema)
 module.exports = mongoose.model('User', UserSchema)
