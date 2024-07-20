@@ -6,6 +6,15 @@ const app = express()
 const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
 
+// routes
+const authRouter = require('./routes/auth')
+
+app.use('/auth', authRouter)
+app.use(express.json())
+
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
+
 const PORT = process.env.PORT || 3000
 
 const start = () => {
