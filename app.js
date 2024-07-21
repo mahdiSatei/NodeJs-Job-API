@@ -9,12 +9,14 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 
 // routes
 const authRouter = require('./routes/auth')
+const jobRouter = require('./routes/job')
 
 // connect datebase
 const connectDB = require('./db/connect')
 
 app.use(express.json())
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/jobs', jobRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
