@@ -40,4 +40,9 @@ UserSchema.methods.genJWT = function() {
     )
 }
 
+UserSchema.methods.comparePassword = async function(password) {
+    const isMatch = await bcyrpt.compare(password, this.password)
+    return isMatch
+}
+
 module.exports = mongoose.model('User', UserSchema)
