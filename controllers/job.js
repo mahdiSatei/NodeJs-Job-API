@@ -3,9 +3,11 @@ const { BadRequestError, NotFoundError } = require('../errors')
 const Job = require('../models/Jobs')
 
 const createJob = async (req, res) => {
+
     req.body.createdBy = req.user.userId
     const job = await Job.create(req.body)
     res.status(StatusCodes.CREATED).json({job})
+
 }
 
 const getAllJobs = async (req, res) => {
@@ -29,7 +31,32 @@ const getSingleJob = async (req, res) => {
 }
 
 const updateJob = async (req, res) => {
-    res.send("update jobs")
+    const {
+        user : {userId},
+        params : {id : jobId},
+        body : {company, position}
+    } = req
+
+    if (!company || !position) {
+        throw new BadRequestError(
+            "Company and position field can't be empty"
+        )
+    }
+
+    const job = await Job.findOneAndUpdate({
+        createdBy : userId,
+        _id : jobId
+    }, req.body, {
+        new : true,
+        runValidators : true
+    })
+
+    if (!job) {
+        throw new NotFoundError(`Can't find job with id ${jobId}`)
+    }
+
+    res.status(StatusCodes.OK).json({job})
+
 }
 
 const deleteJob = async (req, res) => {
