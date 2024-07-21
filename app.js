@@ -6,6 +6,7 @@ const app = express()
 // middleware 
 const notFoundMiddleware = require('./middleware/not-found')
 const errorHandlerMiddleware = require('./middleware/error-handler')
+const authMiddelware = require('./middleware/authentication')
 
 // routes
 const authRouter = require('./routes/auth')
@@ -16,7 +17,7 @@ const connectDB = require('./db/connect')
 
 app.use(express.json())
 app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/jobs', jobRouter)
+app.use('/api/v1/jobs', authMiddelware, jobRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
