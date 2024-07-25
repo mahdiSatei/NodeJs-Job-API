@@ -20,10 +20,12 @@ const jobRouter = require('./routes/job')
 // connect datebase
 const connectDB = require('./db/connect')
 
-app.use(rateLimeter({
+app.use(
+    rateLimeter({
     windowMs : 15 * 60 * 100,
     limit : 100
-}))
+    })
+)
 
 app.use(express.json())
 app.use(cors())
